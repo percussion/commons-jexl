@@ -52,4 +52,27 @@ public class Introspector {
     public static Uberspect getUberspect() {
         return uberSpect;
     }
+    
+    /**
+    * Replace the Uberspect with a user defined Uberspect.  This method is for
+    * backwards compatibility with old code patch.  Should now set uberspect on the ExpressionFactory 
+    * and ScriptFactory constructor.
+    * 
+    * @deprecated
+    * @see org.apache.commons.jexl.ExpressionFactory#ExpressionFactory(org.apache.commons.jexl.util.introspection.Uberspect)
+    * @see org.apache.commons.jexl.ScriptFactory#ScriptFactory(org.apache.commons.jexl.util.introspection.Uberspect)
+   
+    * @param uber the Uberspect to add
+    */
+   @Deprecated
+   public static void setUberspect(Uberspect uber)
+   {
+      if (uber == null)
+      {
+         throw new IllegalArgumentException("uber may not be null");
+      }
+      uberSpect = uber;
+      Log logger = LogFactory.getLog(Introspector.class);
+      ((UberspectLoggable) uberSpect).setRuntimeLogger(logger);
+   }
 }
